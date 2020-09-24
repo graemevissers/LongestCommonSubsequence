@@ -8,10 +8,10 @@ import graphs.longestpaths.LongestPathFinder;
 
 import java.util.*;
 
-public class DijkstraSequenceAligner implements SequenceAligner {
+public class DijkstraLCSFinder implements LCSFinder {
     private final LongestPathFinder<Graph<Node, Edge<Node>>, Node, Edge<Node>> pathFinder;
 
-    public DijkstraSequenceAligner() { this.pathFinder = createPathFinder(); }
+    public DijkstraLCSFinder() { this.pathFinder = createPathFinder(); }
 
     protected <G extends Graph<V, Edge<V>>, V> LongestPathFinder<G, V, Edge<V>> createPathFinder() {
 
