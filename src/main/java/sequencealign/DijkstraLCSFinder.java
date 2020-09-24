@@ -18,9 +18,11 @@ public class DijkstraLCSFinder implements LCSFinder {
         return new DijkstraLongestPathFinder<>();
     }
 
-    public List<Edge<Node>> findLongestCommonSubsequence(double[][] matches) {
-        LongestPath<Node, Edge<Node>> alignment = pathFinder.findLongestPath(new AlignmentGraph(matches),
-                new Node(0, 0), new Node(matches.length - 1, matches[0].length - 1));
+    public List<Edge<Node>> findLongestCommonSubsequence(double[][] alignmentScores) {
+        LongestPath<Node, Edge<Node>> alignment = pathFinder.findLongestPath(
+                new AlignmentGraph(alignmentScores),
+                new Node(0, 0),
+                new Node(alignmentScores.length - 1, alignmentScores[0].length - 1));
         return alignment.edges();
     }
 
@@ -60,24 +62,30 @@ public class DijkstraLCSFinder implements LCSFinder {
      * Nested class that creates graph for vertical seams
      */
     private class AlignmentGraph implements Graph<Node, Edge<Node>> {
-        private final double[][] matches;
+        private final double[][] alignmentScores;
 
-        public AlignmentGraph(double[][] matches) {
-            this.matches = matches;
+        public AlignmentGraph(double[][] alignmentScores) {
+            this.alignmentScores = alignmentScores;
         }
 
+        /**
+         * Set of edges leaving a node. Indels are given a weight of negative one; matches and
+         * mismatches are determined by their relative alignment scores.
+         * @param v Node type with xPosition and yPosition
+         * @return Edges that stem from each node
+         */
         @Override
         public Collection<Edge<Node>> outgoingEdgesFrom(Node v) {
             Set<Edge<Node>> neighbors = new HashSet<>();
-            if (v.xPos() != matches.length - 1) {
-                neighbors.add(new Edge<>(v, new Node(v.xPos() + 1, v.yPos()), 0));
+            if (v.xPos() != alignmentScores.length - 1) {
+                neighbors.add(new Edge<>(v, new Node(v.xPos() + 1, v.yPos()), -1));
             }
-            if (v.yPos() != matches[0].length - 1) {
-                neighbors.add(new Edge<>(v, new Node(v.xPos(), v.yPos() + 1), 0));
+            if (v.yPos() != alignmentScores[0].length - 1) {
+                neighbors.add(new Edge<>(v, new Node(v.xPos(), v.yPos() + 1), -1));
             }
-            if (v.xPos() != matches.length - 1 && v.yPos() != matches[0].length - 1) {
+            if (v.xPos() != alignmentScores.length - 1 && v.yPos() != alignmentScores[0].length - 1) {
                 neighbors.add(new Edge<>(v, new Node(v.xPos() + 1, v.yPos() + 1),
-                        matches[v.xPos()][v.yPos()]));
+                        alignmentScores[v.xPos()][v.yPos()]));
             }
             return neighbors;
         }
