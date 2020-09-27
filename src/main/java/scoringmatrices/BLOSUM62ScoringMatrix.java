@@ -11,12 +11,14 @@ import java.util.List;
  */
 public class BLOSUM62ScoringMatrix implements ScoringMatrix {
 
-    private String aminoAcids;
-    private double[][] scores;
-    private HashMap<SeqPair<Character>, Double> scoringMatrix;
+    private final String aminoAcids;
+    private final double[][] scores;
+    private final HashMap<SeqPair<Character>, Double> scoringMatrix;
 
     public BLOSUM62ScoringMatrix() {
         this.aminoAcids = "ARNDCQEGHILKMFPSTWYV";
+        ScoringMatrixFileParser fileParser = new ScoringMatrixFileParser("./src/main/java/scoringmatrices/data/BLOSUM62");
+        fileParser.getFullScoreMatrix();
         // Scores from https://www.ncbi.nlm.nih.gov/Class/FieldGuide/BLOSUM62.txt
         this.scores = new double[][] {
                       //  A   R   N   D   C   Q   E   G   H   I   L   K   M   F   P   S   T   W   Y   V
@@ -46,7 +48,6 @@ public class BLOSUM62ScoringMatrix implements ScoringMatrix {
 
     public double getScore(char baseChar, char comparedChar) {
         SeqPair<Character> pairQry = new SeqPair<>(baseChar, comparedChar);
-        System.out.print(baseChar + ", " + comparedChar + ", " + pairQry.hashCode() + "; ");
         return scoringMatrix.get(pairQry);
     }
 
@@ -57,7 +58,6 @@ public class BLOSUM62ScoringMatrix implements ScoringMatrix {
             for (int j = 0; j < aminoAcids.length() - i; j++) {
                 char comparedAA = aminoAcids.charAt(j + i);
                 SeqPair<Character> aaPair = new SeqPair<>(baseAA, comparedAA);
-                System.out.print(aaPair.hashCode() + "; ");
                 scoringMatrix.put(aaPair, scores[i][j]);
             }
         }
