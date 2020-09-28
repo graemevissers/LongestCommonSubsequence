@@ -33,13 +33,23 @@ public class ScoringMatrixFileParser {
                     }
                 }
             }
-            System.out.println();
         } catch (IOException err) {
             err.printStackTrace();
+        }
+
+        for (int i = 0; i < scoreMatrix.length; i++) {
+            for (int j = 0; j < scoreMatrix[i].length; j++) {
+                System.out.print(scoreMatrix[i][j] + " ");
+            }
+            System.out.println();
         }
         return scoreMatrix;
     }
 
+    /**
+     * Helper method to use letters in matrix to get usable chars
+     * @return All allowed chars in a String
+     */
     private String getAllowedChars() {
         String allowedChars = "";
         int firstLineNum = getFirstLine();
@@ -48,7 +58,7 @@ public class ScoringMatrixFileParser {
             for (int i = 0; i < firstLineNum - 1; i++) {
                 sc.nextLine();
             }
-            allowedChars = sc.nextLine().replaceAll("//s", "");
+            allowedChars = sc.nextLine().replaceAll("\\s", "");
         } catch (IOException err) {
             err.printStackTrace();
         }

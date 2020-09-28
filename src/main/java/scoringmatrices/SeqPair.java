@@ -1,16 +1,18 @@
 package scoringmatrices;
 
-import java.util.Set;
-import java.util.TreeSet;
-
+import java.util.Objects;
+/**
+ * Hashable pair of chars compatible with MatrixMap
+ * @param <Character>
+ */
 public class SeqPair<Character> {
 
-    private final Set<java.lang.Character> pair;
+    private final char[] pair;
 
     public SeqPair(char baseChar, char comparedChar) {
-        Set<java.lang.Character> pair = new TreeSet<>();
-        pair.add(baseChar);
-        pair.add(comparedChar);
+        char[] pair = new char[2];
+        pair[0] = baseChar;
+        pair[1] = comparedChar;
         this.pair = pair;
     }
 
@@ -23,11 +25,12 @@ public class SeqPair<Character> {
             return false;
         }
         SeqPair<?> seqPair = (SeqPair<?>) o;
-        return seqPair.pair.equals(pair);
+        return ((seqPair.pair[0] == pair[0] && seqPair.pair[1] == pair[1]) ||
+                (seqPair.pair[0] == pair[1] && seqPair.pair[1] == pair[0]));
     }
 
     @Override
     public int hashCode() {
-        return pair.hashCode();
+        return Objects.hash(pair[0]) + Objects.hash(pair[1]);
     }
 }

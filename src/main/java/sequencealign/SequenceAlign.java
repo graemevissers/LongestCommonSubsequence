@@ -18,7 +18,7 @@ public class SequenceAlign {
     private final ScoringMatrix scoringMatrix;
 
     /**
-     * Constructor for the SequenceAlign
+     * Constructor for SequenceAlign
      * @param baseSeq - First sequence
      * @param comparedSeq - Sequence it is compared to
      * @param scoringMatrix - Type of matrix used to give values to mismatches and indels
@@ -32,7 +32,7 @@ public class SequenceAlign {
     }
 
     /**
-     * Constructor for the SequenceAlign
+     * Constructor for SequenceAlign
      * @param baseSeq - First sequence
      * @param comparedSeq - Sequence it is compared to
      * @param lcsFinder - Type of algorithm used to find the longest common subsequence
@@ -45,7 +45,7 @@ public class SequenceAlign {
     }
 
     /**
-     * Constructor for the SequenceAlign
+     * Constructor for SequenceAlign
      * @param baseSeq - First sequence
      * @param comparedSeq - Sequence it is compared to
      * @param scoringMatrix - Type of matrix used to give values to mismatches and indels
@@ -58,7 +58,7 @@ public class SequenceAlign {
     }
 
     /**
-     * Constructor for the SequenceAlign
+     * Constructor for SequenceAlign
      * @param baseSeq - First sequence
      * @param comparedSeq - Sequence it is compared to
      */
