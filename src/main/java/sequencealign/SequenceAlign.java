@@ -1,7 +1,6 @@
 package sequencealign;
 
 import graphs.Edge;
-import scoringmatrices.BLOSUM62ScoringMatrix;
 import scoringmatrices.ScoringMatrix;
 
 import java.util.List;
@@ -15,20 +14,20 @@ public class SequenceAlign {
     private final LCSFinder lcsFinder;
     private final String baseSeq;
     private final String comparedSeq;
-    private final ScoringMatrix scoringMatrix;
+    private final String scoringFile;
 
     /**
      * Constructor for SequenceAlign
      * @param baseSeq - First sequence
      * @param comparedSeq - Sequence it is compared to
-     * @param scoringMatrix - Type of matrix used to give values to mismatches and indels
+     * @param scoringFile - File name of scoring matrix
      * @param lcsFinder - Type of algorithm used to find the longest common subsequence
      */
-    public SequenceAlign(String baseSeq, String comparedSeq, ScoringMatrix scoringMatrix, LCSFinder lcsFinder) {
+    public SequenceAlign(String baseSeq, String comparedSeq, String scoringFile, LCSFinder lcsFinder) {
         this.baseSeq = baseSeq;
         this.comparedSeq = comparedSeq;
         this.lcsFinder = lcsFinder;
-        this.scoringMatrix = scoringMatrix;
+        this.scoringFile = scoringFile;
     }
 
     /**
@@ -41,20 +40,20 @@ public class SequenceAlign {
         this.baseSeq = baseSeq;
         this.comparedSeq = comparedSeq;
         this.lcsFinder = lcsFinder;
-        this.scoringMatrix = new BLOSUM62ScoringMatrix();
+        this.scoringFile = "BLOSUM62";
     }
 
     /**
      * Constructor for SequenceAlign
      * @param baseSeq - First sequence
      * @param comparedSeq - Sequence it is compared to
-     * @param scoringMatrix - Type of matrix used to give values to mismatches and indels
+     * @param scoringFile - Type of matrix used to give values to mismatches and indels
      */
-    public SequenceAlign(String baseSeq, String comparedSeq, ScoringMatrix scoringMatrix) {
+    public SequenceAlign(String baseSeq, String comparedSeq, String scoringFile) {
         this.baseSeq = baseSeq;
         this.comparedSeq = comparedSeq;
         this.lcsFinder =  new DijkstraLCSFinder();
-        this.scoringMatrix = scoringMatrix;
+        this.scoringFile = scoringFile;
     }
 
     /**
@@ -66,7 +65,7 @@ public class SequenceAlign {
         this.baseSeq = baseSeq;
         this.comparedSeq = comparedSeq;
         this.lcsFinder =  new DijkstraLCSFinder();
-        this.scoringMatrix = new BLOSUM62ScoringMatrix();
+        this.scoringFile = "BLOSUM62";
     }
 
     public String baseSequence() { return baseSeq; }
@@ -78,6 +77,7 @@ public class SequenceAlign {
     }
 
     private double[][] computeMatches(String baseSeq, String comparedSeq) {
+        ScoringMatrix scoringMatrix = new ScoringMatrix(scoringFile);
         double[][] output = new double[baseSeq.length()][comparedSeq.length()];
         for (int i = 0; i < baseSeq.length(); i++) {
             char baseChar = baseSeq.charAt(i);

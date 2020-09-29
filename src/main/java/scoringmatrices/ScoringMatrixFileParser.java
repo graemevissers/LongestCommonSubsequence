@@ -7,13 +7,18 @@ import java.util.Scanner;
 public class ScoringMatrixFileParser {
 
     private File file;
+    private String allowedChars;
 
     public ScoringMatrixFileParser(String fileName) {
         this.file = new File(fileName);
+        this.allowedChars = getAllowedChars();
     }
 
-    public double[][] getFullScoreMatrix() {
-        String allowedChars = getAllowedChars();
+    /**
+     * Parses file to find the actual matrix and returns it as an array of arrays.
+     * @return full scoring matrix for that file
+     */
+    public double[][] getFullScoringMatrix() {
         double[][] scoreMatrix = new double[allowedChars.length()][allowedChars.length()];
         try {
             Scanner sc = new Scanner(file);
@@ -44,6 +49,14 @@ public class ScoringMatrixFileParser {
             System.out.println();
         }
         return scoreMatrix;
+    }
+
+    /**
+     * Gets private string of chars allowed for alignment
+     * @return String of chars allowed for that alignment matrix
+     */
+    public String allowedChars() {
+        return allowedChars;
     }
 
     /**
