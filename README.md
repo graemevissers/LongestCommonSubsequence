@@ -7,6 +7,7 @@ Currently:
 - Supports different SequenceAlign constructors for different matrix score files and LCSFinder algorithms.
 
 TODO:
+- Add affine gap penalties
 - Add local alignment
 - Add edit distance
 - Add overlap alignment
